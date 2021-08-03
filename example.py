@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Mar 15 09:42:51 2017
-
-"""
-#import os
-#os.chdir('/workspace/hshu/paper2/BRCA')
 import numpy as np
 import dgcca
 
