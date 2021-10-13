@@ -10,6 +10,8 @@ for i in range(n_sets):
  
 # Select the ranks of the Xk matrices by the ED method
 Xk_hat, Ck_hat, Dk_hat, PVE_by_Ck_SetLevel_hat,  PVE_by_Ck_VariableLevel_hat  = dgcca.dGCCA(Yk, method='ED')
+# PVE_by_Ck_SetLevel_hat: X_k's variance explained by C_k at the dataset level
+# PVE_by_Ck_VariableLevel_hat: X_k's variance explained by C_k at the variable level
 
 # Or use user-specified ranks of the Xk matrices (e.g., from the scree plot) 
 # Xk_hat, Ck_hat, Dk_hat, PVE_by_Ck_SetLevel_hat,  PVE_by_Ck_VariableLevel_hat  = dgcca.dGCCA(Yk, rankX=[5,5,5])
