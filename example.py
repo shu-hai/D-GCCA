@@ -3,7 +3,7 @@ import dgcca
 
 n_sets = 3
 
-Yk = [[] for _ in range(n_sets)]
+Yk = [[] for _ in range(n_sets)] # Note that each Yk matrix should be row-mean centered!
 
 for i in range(n_sets):
     Yk[i] = np.load('Y' + str(i) + '.npy')
