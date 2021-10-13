@@ -56,7 +56,7 @@ def dGCCA(Y_k, method=None, rankX=None, Ell=None, I_0=None, I_Delta=None, sign_a
     # rankX: matrix rank of each signal matrix
     # Ell: the largest index of eigenvalue>1 of covariance matrix of all f=(f_1.T,...,f_K.T).T
     # I_0: all ell<Ell and associated alpha_ell is nonzero
-    # I_Delta[ell,t]: the indicator of Delta^{(ell)}_{jk}>=0, where ell is in I_0, and t is the t-th pair of (j,k) with 1<=j<k<=num_sets; 
+    # I_Delta[ell,t]: the sign of Delta^{(ell)}_{jk}, where ell is in I_0, and t is the t-th pair of (j,k) with 1<=j<k<=num_sets; 
     #                 its shape=(len(I_0), num_sets*(num_sets-1)/2)
     # sign_alpha[ell]: the sign of alpha_ell, where ell is in I_0. A list with length=len(I_0).
     # r_star[k]: rank(cov(z_k^{I_0}))
@@ -228,27 +228,29 @@ def dGCCA(Y_k, method=None, rankX=None, Ell=None, I_0=None, I_Delta=None, sign_a
                         
                         Delta_jk = (corr_wl_zjl + corr_wl_zkl)**2 - 4*corr_zjl_zkl               
                         
-                        if I_Delta is None:                                                            
-                            if Delta_jk < 0:
-                                Z_j0k = Z_kl[j,ell,:] - 0.5*(corr_wl_zjl + corr_wl_zkl)*W_ell[ell,:] # z_{j,k}^{(\ell)}
-                                Z_k0j = Z_kl[k,ell,:] - 0.5*(corr_wl_zjl + corr_wl_zkl)*W_ell[ell,:] # z_{j,k}^{(\ell)}
-                                rejection, _ = test_zero_corr(Z_j0k, Z_k0j, tail='two', sig_level=sig_level) 
+                        if I_Delta is None: 
+                            Z_j0k = Z_kl[j,ell,:] - 0.5*(corr_wl_zjl + corr_wl_zkl)*W_ell[ell,:] # z_{j,k}^{(\ell)}
+                            Z_k0j = Z_kl[k,ell,:] - 0.5*(corr_wl_zjl + corr_wl_zkl)*W_ell[ell,:] # z_{k,j}^{(\ell)}
+                            rejection, _ = test_zero_corr(Z_j0k, Z_k0j, tail='left', sig_level=sig_level) 
+                            if rejection:
+                                alpha_jk[t] = 0.5 * (corr_wl_zjl + corr_wl_zkl - max(Delta_jk,0)**0.5) 
+                            else:
+                                rejection, _ = test_zero_corr(Z_j0k, Z_k0j, tail='right', sig_level=sig_level)
                                 if rejection:
                                     I_Delta_ell[t] = 0
                                     alpha_jk[t] = np.inf # indicate no alpha_jk here
                                 else:
-                                    alpha_jk[t] = 0.5 * (corr_wl_zjl + corr_wl_zkl) # revise Delta_jk=0
-                            else:
-                                alpha_jk[t] = 0.5 * (corr_wl_zjl + corr_wl_zkl - Delta_jk**0.5) 
+                                    alpha_jk[t] = 0.5 * (corr_wl_zjl + corr_wl_zkl) 
                         else:
-                            if I_Delta[I_0.index(ell),t]==0:
+                            if I_Delta[I_0.index(ell),t]==-1:
                                 I_Delta_ell[t] = 0
                                 alpha_jk[t] = np.inf # indicate no alpha_jk here
                             elif I_Delta[I_0.index(ell),t]==1:
-                                Delta_jk = max(Delta_jk,0)
-                                alpha_jk[t] = 0.5 * (corr_wl_zjl + corr_wl_zkl - Delta_jk**0.5) 
+                                alpha_jk[t] = 0.5 * (corr_wl_zjl + corr_wl_zkl - max(Delta_jk,0)**0.5) 
+                            elif I_Delta[I_0.index(ell),t]==0:    
+                                alpha_jk[t] = 0.5 * (corr_wl_zjl + corr_wl_zkl)                                
                             else:
-                                ValueError('The entries of I_Delta must be 1 or 0.')
+                                ValueError('The entries of I_Delta must be -1, 0, or 1.')
                 
  
                 
