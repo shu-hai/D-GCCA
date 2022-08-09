@@ -12,4 +12,4 @@ In other words, the common-source and distinctive-source matrices contain the va
 
 Please cite the article [1] for this package, which is available [here](https://arxiv.org/abs/2001.02856).
 
-[1] Shu, H., Qu, Z., & Zhu, H. D-GCCA: Decomposition-based Generalized Canonical Correlation Analysis for Multi-view High-dimensional Data. arXiv preprint arXiv:2001.02856.
+[1] Shu, H., Qu, Z., & Zhu, H. "D-GCCA: Decomposition-based Generalized Canonical Correlation Analysis for Multi-view High-dimensional Data". Journal of Machine Learning Research, 23(169):1−64
