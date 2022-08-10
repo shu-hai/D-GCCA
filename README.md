@@ -10,6 +10,6 @@ where <img src="https://render.githubusercontent.com/render/math?math=\{\boldsym
 In other words, the common-source and distinctive-source matrices contain the variation information in each view, respectively, explained by the common and distinctive latent factors of the K views.
 
 
-Please cite the article [1] for this package, which is available [here](https://arxiv.org/abs/2001.02856).
+Please cite the article [1] for this package, which is available [here](https://www.jmlr.org/papers/volume23/20-021/20-021.pdf).
 
 [1] Shu, H., Qu, Z., & Zhu, H. "D-GCCA: Decomposition-based Generalized Canonical Correlation Analysis for Multi-view High-dimensional Data". Journal of Machine Learning Research, 23(169):1−64
