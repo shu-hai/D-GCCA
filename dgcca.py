@@ -68,7 +68,7 @@ def dGCCA(Y_k, method=None, rankX=None, Ell=None, I_0=None, I_Delta=None, sign_a
     
     num_sets = len(Y_k)
     if num_sets == 2:
-        raise ValueError('The number of datasets is 2. Please use dCCA function, instead.')       
+        raise ValueError('The number of datasets is 2. Please use the D-CCA package at https://github.com/shu-hai/D-CCA, instead.')       
     elif num_sets < 2:
         raise ValueError('The number of datasets is less than 2.') 
         
